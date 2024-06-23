@@ -96,8 +96,7 @@ const Home = () => {
           <div className="flex justify-between items-center border-b px-6 h-[12%]">
             <p>Chat Bot</p>
             <Button onClick={handleBotRelease} variant="ghost" size="icon ">
-              {" "}
-              <Cross1Icon />{" "}
+              <Cross1Icon />
             </Button>
           </div>
 
@@ -128,8 +127,8 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <div className="h-[12%] border-t">
-            <Input className="w-full h-full order-none outline-none" placeholder="Write prompt" onChange={()=>handleChange} value={inputValue} onKeyPress={handleKeyPress} />
+          <div  className="h-[12%] border-t">
+            <Input className="w-full h-full order-none outline-none  bg-slate-600" placeholder="Write prompt" onChange={()=>handleChange} value={inputValue} onKeyPress={handleKeyPress} />
           </div>
         </div>}
 
