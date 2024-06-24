@@ -13,6 +13,7 @@ import {
   CreditCardIcon,
   LandmarkIcon,
   LogOutIcon,
+  Wallet2Icon,
   WalletIcon,
 } from "lucide-react";
 import React from "react";
@@ -40,6 +41,11 @@ const menu = [
     name: "Payments Details",
     path: "/payment-details",
     icon: <LandmarkIcon className="h-6 w-6" />,
+  },
+  {
+    name: "Withdrawal",
+    path: "/withdrawal",
+    icon: <Wallet2Icon className="h-6 w-6" />,
   },
   {
     name: "Profile",

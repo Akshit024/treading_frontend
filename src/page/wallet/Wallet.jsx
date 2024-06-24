@@ -102,29 +102,27 @@ const Wallet = () => {
             <UpdateIcon className="h-7 w-7 p-0 cursor-pointer hover:text-gray-400" />
           </div>
           <div className="space-y-5">
-            {[1,1,1,1,1,1,1,1].map((items,key)=>(
-                          <div key={key}>
-                          <Card className="px-5 flex justify-between items-center p-2">
-                            <div className="flex items-center gap-5">
-                              <Avatar>
-                                <AvatarFallback>
-                                  <ShuffleIcon/>
-                                </AvatarFallback>
-                              </Avatar>
-            
-                              <div className="space-y-1">
-                                <h1>Buy Asset</h1>
-                                <p className="text-sm text-gray-500">2024-12-34</p>
-                              </div>
-                            </div>
-                            <div>
-                              <p className={`text-green-600`}>9999 USD</p>
-                            </div>
-                          </Card>
-                        </div>
-            ))
-            }
+            {[1, 1, 1, 1, 1, 1, 1, 1].map((items, key) => (
+              <div key={key}>
+                <Card className="px-5 flex justify-between items-center p-2">
+                  <div className="flex items-center gap-5">
+                    <Avatar>
+                      <AvatarFallback>
+                        <ShuffleIcon />
+                      </AvatarFallback>
+                    </Avatar>
 
+                    <div className="space-y-1">
+                      <h1>Buy Asset</h1>
+                      <p className="text-sm text-gray-500">2024-12-34</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className={`text-green-600`}>9999 USD</p>
+                  </div>
+                </Card>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -3,8 +3,10 @@ import React from 'react'
 
 const StockDetails = () => {
   return (
-    <div>
-      
+    <div className='p-5 mt-5'>
+      <div className='flex justify-between'>
+
+      </div>
     </div>
   )
 }

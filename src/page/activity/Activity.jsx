@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { BookmarkFilledIcon } from "@radix-ui/react-icons";
 const Activity = () => {
   return (
     <div className="p-5 lg:px-20">
