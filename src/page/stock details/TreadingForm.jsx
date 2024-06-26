@@ -8,7 +8,6 @@ import React, { useState } from "react";
 const TreadingForm = () => {
 const [orderType ,setOrderType]=useState("BUY");
   const handleChange = () => {
-    console.log("change");
   };
   return (
     <div className="space-y-10 p-5 ">

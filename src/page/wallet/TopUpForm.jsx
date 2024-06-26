@@ -17,7 +17,6 @@ const TopUpForm = () => {
     setPaymentMethod(value);
   };
   const handleSubmit = () => {
-    console.log(amount, paymentMethod);
   };
   return (
     <div className="pt-10 space-y-5">

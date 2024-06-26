@@ -16,7 +16,6 @@ const TransferForm = () =>  {
   }
 
   const handleSubmit = () =>{
-    console.log(formData);
   }
 
   return (

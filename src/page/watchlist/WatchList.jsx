@@ -17,7 +17,6 @@ import { BookmarkFilledIcon } from "@radix-ui/react-icons";
 const WatchList = () => {
 
   const handleRemoveToWatchlist=(value)=>{
-    console.log(value);
   }
   return (
     <div className="p-5 lg:px-20">

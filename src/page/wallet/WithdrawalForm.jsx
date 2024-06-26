@@ -10,7 +10,6 @@ const WithdrawalForm = () => {
     setAmount(e.target.value);
   };
   const handleSubmit = () => {
-    console.log(amount);
   };
   return (
     <div className='pt-10 space-y-5'>

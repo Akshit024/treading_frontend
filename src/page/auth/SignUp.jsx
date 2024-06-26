@@ -10,10 +10,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { register } from "@/state/Auth/Action";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const form = useForm({
     resolver: "",
     defaultValues: {
@@ -23,7 +26,7 @@ const SignUp = () => {
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(register(data));
   };
   return (
     <div className="px-10 py-2">

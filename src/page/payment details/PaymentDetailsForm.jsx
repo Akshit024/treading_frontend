@@ -24,7 +24,6 @@ const PaymentDetailsForm = () => {
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
   };
   return (
     <div className="px-10 py-2">

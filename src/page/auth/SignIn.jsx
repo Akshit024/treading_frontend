@@ -10,10 +10,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { login } from "@/state/Auth/Action";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+  const nevigate = useNavigate();
   const form = useForm({
     resolver: "",
     defaultValues: {
@@ -22,7 +27,7 @@ const SignIn = () => {
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(login({data,nevigate}));
   };
   return (
     <div className="px-10 py-2">

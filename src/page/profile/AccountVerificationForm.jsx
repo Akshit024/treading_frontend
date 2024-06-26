@@ -20,7 +20,6 @@ import React, { useState } from "react";
 const AccountVerificationForm = () => {
   const [value, setValue] = useState("");
   const handleSubmit = () => {
-    console.log(value);
   };
 
   return (
