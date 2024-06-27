@@ -13,14 +13,66 @@ import {
   UpdateIcon,
   UploadIcon,
 } from "@radix-ui/react-icons";
-import { DollarSign, ShuffleIcon, WalletIcon } from "lucide-react";
-import React from "react";
+import { Check, DollarSign, ShuffleIcon, WalletIcon } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import TopUpForm from "./TopUpForm";
 import WithdrawalForm from "./WithdrawalForm";
 import TransferForm from "./TransferForm";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  depositeMoney,
+  getUserWallet,
+  getWalletTransaction,
+} from "@/state/Wallet/Action";
+import { useLocation, useNavigate } from "react-router-dom";
 
+function useQueary() {
+  return new URLSearchParams(useLocation().search);
+}
 const Wallet = () => {
+  const navigate = useNavigate();
+  const { wallet } = useSelector((store) => store);
+  const dispatch = useDispatch();
+  const queary = useQueary();
+
+  const order_id = queary.get("order_id");
+  const razorPayPaymentId = queary.get("razorpay_payment_id");
+  const payment_id = queary.get("payment_id");
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(wallet.userWallet?.id);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
+  };
+  useEffect(() => {
+    handleFetchUserWallet();
+    handleFetchWalletTransaction();
+  }, []);
+
+  useEffect(() => {
+    if (order_id) {
+      dispatch(
+        depositeMoney({
+          jwt: localStorage.getItem("jwt"),
+          orderId: order_id,
+          paymentId: razorPayPaymentId,
+          navigate,
+        })
+      );
+    }
+  }, [order_id, razorPayPaymentId, payment_id]);
+  const handleFetchUserWallet = () => {
+    dispatch(getUserWallet(localStorage.getItem("jwt")));
+  };
+
+  const handleFetchWalletTransaction = () => {
+    dispatch(getWalletTransaction(localStorage.getItem("jwt")));
+  };
+
   return (
     <div className="flex flex-col items-center">
       <div className="pt-10 w-full lg:w-[60%]">
@@ -31,21 +83,35 @@ const Wallet = () => {
                 <WalletIcon size={30} />
                 <div className="">
                   <CardTitle className="text-2xl">My Wallet</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <p className="text-gray-200 text-sm">#123456</p>
-                    <CopyIcon className="cursor-pointer hover:text-slate-400" />
+                  <div className="flex items-center gap-2 pt-1">
+                    <p className="text-gray-200 text-sm">
+                      #{wallet.userWallet?.id}
+                    </p>
+                    {!isCopied ? (
+                      <CopyIcon
+                        onClick={handleCopy}
+                        className="cursor-pointer hover:text-slate-400"
+                      />
+                    ) : (
+                      <Check size={18} className="text-green-500" />
+                    )}
                   </div>
                 </div>
               </div>
               <div>
-                <ReloadIcon className="w-6 h-6 cursor-pointer hover:text-gray-400" />
+                <ReloadIcon
+                  onClick={handleFetchUserWallet}
+                  className="w-6 h-6 cursor-pointer hover:text-gray-400"
+                />
               </div>
             </div>
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
               <DollarSign />
-              <span className="text-2xl font-semibold">50000000</span>
+              <span className="text-2xl font-semibold">
+                {wallet.userWallet?.balance}
+              </span>
             </div>
             <div className="flex gap-7 mt-5">
               <Dialog>
@@ -99,10 +165,13 @@ const Wallet = () => {
         <div className="py-5 pt-10">
           <div className="flex gap-2 items-center pb-5">
             <h1 className="text-2xl font-semibold">History</h1>
-            <UpdateIcon className="h-7 w-7 p-0 cursor-pointer hover:text-gray-400" />
+            <UpdateIcon
+              onClick={handleFetchWalletTransaction}
+              className="h-7 w-7 p-0 cursor-pointer hover:text-gray-400"
+            />
           </div>
           <div className="space-y-5">
-            {[1, 1, 1, 1, 1, 1, 1, 1].map((items, key) => (
+            {wallet.transactions?.map((items, key) => (
               <div key={key}>
                 <Card className="px-5 flex justify-between items-center p-2">
                   <div className="flex items-center gap-5">
@@ -113,12 +182,12 @@ const Wallet = () => {
                     </Avatar>
 
                     <div className="space-y-1">
-                      <h1>Buy Asset</h1>
-                      <p className="text-sm text-gray-500">2024-12-34</p>
+                      <h1>{items.walletTransactionType}</h1>
+                      <p className="text-sm text-gray-500">{items.date}</p>
                     </div>
                   </div>
                   <div>
-                    <p className={`text-green-600`}>9999 USD</p>
+                    <p className={`text-green-600`}>{items.amount} USD</p>
                   </div>
                 </Card>
               </div>

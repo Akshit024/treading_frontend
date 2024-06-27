@@ -4,31 +4,41 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
 import { DotIcon } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import TreadingForm from "./TreadingForm";
 import StockChart from "../home/StockChart";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { fetchCoinDetails } from "@/state/Coin/Action";
 
 const StockDetails = () => {
+  const {coin} = useSelector(store=>store)
+  const dispatch = useDispatch();
+  const {id}=useParams();
+  useEffect(()=>{
+    dispatch(fetchCoinDetails({coinId:id}));
+  },[id]);
+
   return (
     <div className="p-5 mt-5">
       <div className="flex justify-between">
         <div className="flex gap-5 items-center">
           <div>
             <Avatar>
-              <AvatarImage src={"https://cdn.pixabay.com/photo/2021/05/24/09/15/ethereum-6278326_1280.png"} alt="gelt"/>
+              <AvatarImage src={coin.coinDetails?.image.large} alt="glat"/>
             </Avatar>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <p>BTC</p>
+              <p>{coin.coinDetails?.symbol?.toUpperCase()}</p>
               <DotIcon className="text-gray-400" />
-              <p className="text-gray-400">Bitcoin</p>
+              <p className="text-gray-400">{coin.coinDetails?.name}</p>
             </div>
             <div className="flex items-end gap-2">
-              <p className="text-xl font-bold">$4567</p>
+              <p className="text-xl font-bold">${coin.coinDetails?.market_data.current_price.usd}</p>
               <p className="text-red-600">
-                <span>-134567.567</span>
-                <span>(-0.234567%)</span>
+                <span>-{coin.coinDetails?.market_data.market_cap_change_24h}</span>
+                <span>(-{coin.coinDetails?.market_data.market_cap_change_percentage_24h}%)</span>
               </p>
             </div>
           </div>
@@ -57,7 +67,7 @@ const StockDetails = () => {
         </div>
       </div>
       <div className="mt-14">
-      <StockChart/>
+      <StockChart coinId={id}/>
       </div>
     </div>
   );

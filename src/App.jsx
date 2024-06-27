@@ -21,7 +21,6 @@ import { getUser } from "./state/Auth/Action";
 function App() {
   const { auth } = useSelector(store => store);
   const dispatch = useDispatch();
-  console.log(auth);
   useEffect(() => {
     dispatch(getUser(auth.jwt || localStorage.getItem("jwt")));
   }, [auth.jwt]);
