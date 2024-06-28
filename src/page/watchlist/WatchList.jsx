@@ -14,16 +14,18 @@ import { BookMarkedIcon, WatchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookmarkFilledIcon } from "@radix-ui/react-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserWatchlist } from "@/state/Watchlist/Action";
+import { addItemToWatchlist, getUserWatchlist } from "@/state/Watchlist/Action";
 
 const WatchList = () => {
   const {watchlist}=useSelector(store=>store);
   const dispatch = useDispatch();
-  const handleRemoveToWatchlist=(value)=>{
+  const handleRemoveToWatchlist=(item)=>{
+    dispatch(addItemToWatchlist({coinId:item,jwt:localStorage.getItem("jwt")}));
+
   }
   useEffect(()=>{
     dispatch(getUserWatchlist({jwt:localStorage.getItem("jwt")}));
-  },[])
+  },[]);
   return (
     <div className="p-5 lg:px-20">
       <div className="flex">
@@ -45,7 +47,7 @@ const WatchList = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {watchlist.items.map((items, index) => (
+          {watchlist.items.map((item, index) => (
             <TableRow key={index}>
               <TableCell className="flex items-center gap-2 font-medium">
                 <Avatar className="-z-50">
@@ -53,13 +55,13 @@ const WatchList = () => {
                 </Avatar>
                 <span>BitCoin</span>
               </TableCell>
-              <TableCell>BTC</TableCell>
+              <TableCell>{item.id}</TableCell>
               <TableCell>12345678</TableCell>
               <TableCell>12345678</TableCell>
               <TableCell>12345678</TableCell>
               <TableCell>$250.00</TableCell>
               <TableCell className="text-right">
-                <Button variant = "ghost" onClick={()=>handleRemoveToWatchlist(index)} size="icon" className="h-10 w-10">
+                <Button variant = "ghost" onClick={()=>handleRemoveToWatchlist(item.id)} size="icon" className="h-10 w-10">
                   <BookmarkFilledIcon className="w-6 h-6"/>
                 </Button>
               </TableCell>

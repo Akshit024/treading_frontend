@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useDispatch, useSelector } from 'react-redux';
 import { getWithdrawalHistory } from '@/state/Withdrawal/Action';
+import { formatDateTime } from '@/utils/formatDateTime';
 
 const Withdrawal = () => {
   const { withdrawal } = useSelector((store) => store);
@@ -17,11 +18,6 @@ const Withdrawal = () => {
   useEffect(()=>{
     dispatch(getWithdrawalHistory({jwt:localStorage.getItem("jwt")}));
   },[]);
-  const formatDateTime = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-    const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, options);
-};
   console.log(withdrawal.history);
   return (
     <div className="p-5 lg:px-20">

@@ -13,6 +13,7 @@ export const getUserWatchlist =
       });
       dispatch({ type: GET_USER_WATCHLIST_SUCCESS, payload: response.data });
     } catch (error) {
+        console.log(error)
       dispatch({ type: GET_USER_WATCHLIST_FAILURE, payload: error.message });
     }
   };

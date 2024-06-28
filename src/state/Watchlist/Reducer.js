@@ -28,6 +28,7 @@ import {
         return {
           ...state,
           watchlist: action.payload,
+          items:action.payload.coins,
           loading: false,
           error: null,
         };
