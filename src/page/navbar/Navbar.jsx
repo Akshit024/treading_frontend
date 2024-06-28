@@ -34,7 +34,7 @@ const Navbar = () => {
                     <Avatar>
                         <AvatarImage src="src\assets\logo.png"/>
                     </Avatar>
-                    <div>
+                    <div className="pt-3">
                         <span className="font-bold text-blue-400 pl-2 pr-1">
                             Akshit
                         </span>

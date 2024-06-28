@@ -30,7 +30,7 @@ export const proceedWithdrawal = ({id,jwt,accept})=>async(dispatch)=>{
     }
 };
 
-export const getWithdrawalHistory = (jwt)=>async(dispatch)=>{
+export const getWithdrawalHistory = ({jwt})=>async(dispatch)=>{
     dispatch({type:GET_WITHDRAWAL_HISTORY_REQUEST});
     try {
         const response = await api.get('/api/withdrawal',{
@@ -44,14 +44,10 @@ export const getWithdrawalHistory = (jwt)=>async(dispatch)=>{
     }
 };
 
-export const getAllWithdrawalRequest = (jwt)=>async(dispatch)=>{
+export const getAllWithdrawalRequest = ()=>async(dispatch)=>{
     dispatch({type:GET_WITHDRAWAL_REQUEST_REQUEST});
     try {
-        const response = await api.get('/api/admin/withdrawal/',{
-            headers:{
-                Authorization:`Bearer ${jwt}`
-            }
-        })
+        const response = await api.get('/api/admin/withdrawal')
         dispatch({type:GET_WITHDRAWAL_REQUEST_SUCCESS,payload:response.data})
     } catch (error) {
         dispatch({type:GET_WITHDRAWAL_REQUEST_FAILURE,payload:error.message})
@@ -61,7 +57,7 @@ export const getAllWithdrawalRequest = (jwt)=>async(dispatch)=>{
 export const addPaymentDetails = ({paymentDetails,jwt})=>async(dispatch)=>{
     dispatch({type:ADD_PAYMENT_DETAILS_REQUEST});
     try {
-        const response = await api.post('/api/payment-details/',paymentDetails,{
+        const response = await api.post('/api/details',paymentDetails,{
             headers:{
                 Authorization:`Bearer ${jwt}`
             }
@@ -72,19 +68,20 @@ export const addPaymentDetails = ({paymentDetails,jwt})=>async(dispatch)=>{
     }
 };
 
-export const getPaymentDetails = (jwt)=>async(dispatch)=>{
+export const getPaymentDetails = ({jwt}) => async(dispatch)=>{
     dispatch({type:GET_PAYMENT_DETAILS_REQUEST});
     try {
         const response = await api.get('/api/payment-details',{
             headers:{
                 Authorization:`Bearer ${jwt}`
             }
-        })
-        dispatch({type:GET_PAYMENT_DETAILS_SUCCESS,payload:response.data})
+        });
+        dispatch({type:GET_PAYMENT_DETAILS_SUCCESS,payload:response.data});
     } catch (error) {
-        dispatch({type:GET_PAYMENT_DETAILS_FAILURE,payload:error.message})
+        dispatch({type:GET_PAYMENT_DETAILS_FAILURE,payload:error.message});
     }
 };
+
 
 
 

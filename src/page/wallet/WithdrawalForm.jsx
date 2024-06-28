@@ -2,15 +2,28 @@
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import { getPaymentDetails, withdrawalRequest } from '@/state/Withdrawal/Action';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 
 const WithdrawalForm = () => {
   const [amount, setAmount] = useState("");
+  const { withdrawal } = useSelector((store) => store);
+
+  const dispatch =useDispatch();
+
+  useEffect(()=>{
+      dispatch(getPaymentDetails({jwt:localStorage.getItem("jwt")}));
+  },[]);
+
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
+
   const handleSubmit = () => {
+    dispatch(withdrawalRequest({amount,jwt:localStorage.getItem("jwt")}));
   };
+  
   return (
     <div className='pt-10 space-y-5'>
       <div className='flex justify-between items-center rounded-md'>
@@ -36,8 +49,8 @@ const WithdrawalForm = () => {
         <div className='flex items-center gap-5 border px-5 py-2 rounded-md'>
           <img className="h-8 w-8" src='https://static.vecteezy.com/system/resources/thumbnails/013/948/616/small_2x/bank-icon-logo-design-vector.jpg' alt=''/>
           <div>
-          <p className='font-bold text-lg'>Yes Bank</p>
-          <p className='text-xs'>********1234</p>
+          <p className='font-bold text-lg'>{withdrawal.paymentDetails?.bankName}</p>
+          <p className='text-xs'>{withdrawal.paymentDetails?.accountNumber}</p>
           </div>
         </div>
       </div>

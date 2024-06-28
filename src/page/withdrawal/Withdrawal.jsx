@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Table,
   TableBody,
@@ -8,9 +8,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { useDispatch, useSelector } from 'react-redux';
+import { getWithdrawalHistory } from '@/state/Withdrawal/Action';
 
 const Withdrawal = () => {
+  const { withdrawal } = useSelector((store) => store);
+  const dispatch =useDispatch();
+  useEffect(()=>{
+    dispatch(getWithdrawalHistory({jwt:localStorage.getItem("jwt")}));
+  },[]);
+  const formatDateTime = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+};
+  console.log(withdrawal.history);
   return (
     <div className="p-5 lg:px-20">
     <h1 className="pb-5 font-bold text-3xl">
@@ -26,12 +38,12 @@ const Withdrawal = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((items, index) => (
+        {withdrawal.history.map((items, index) => (
           <TableRow key={index}>
-            <TableCell>BTC</TableCell>
-            <TableCell>12345678</TableCell>
-            <TableCell>$250.00</TableCell>
-            <TableCell className="text-right">1234</TableCell>
+           <TableCell>{formatDateTime(items.date)}</TableCell>
+            <TableCell>Bank</TableCell>
+            <TableCell>$ {Math.floor(items.amount)}</TableCell>
+            <TableCell className="text-right">{items.status}</TableCell>
           </TableRow>
         ))}
       </TableBody>

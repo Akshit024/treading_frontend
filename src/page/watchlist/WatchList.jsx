@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -13,11 +13,17 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { BookMarkedIcon, WatchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookmarkFilledIcon } from "@radix-ui/react-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserWatchlist } from "@/state/Watchlist/Action";
 
 const WatchList = () => {
-
+  const {watchlist}=useSelector(store=>store);
+  const dispatch = useDispatch();
   const handleRemoveToWatchlist=(value)=>{
   }
+  useEffect(()=>{
+    dispatch(getUserWatchlist({jwt:localStorage.getItem("jwt")}));
+  },[])
   return (
     <div className="p-5 lg:px-20">
       <div className="flex">
@@ -39,7 +45,7 @@ const WatchList = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((items, index) => (
+          {watchlist.items.map((items, index) => (
             <TableRow key={index}>
               <TableCell className="flex items-center gap-2 font-medium">
                 <Avatar className="-z-50">

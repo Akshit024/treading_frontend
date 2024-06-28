@@ -63,7 +63,7 @@ const Sidebar = () => {
     dispatch(logout());
   };
   return (
-    <div className="mt-10 space-y-5">
+    <div className="mt-2 space-y-5">
       {menu.map((item) => (
         <div key={item.name}>
           <SheetClose className="w-full">
