@@ -16,9 +16,12 @@ import { formatDateTime } from "@/utils/formatDateTime";
 const Activity = () => {
   const dispatch = useDispatch();
   const { order } = useSelector((store) => store);
+
   useEffect(() => {
     dispatch(getAllOrdersForUser({ jwt: localStorage.getItem("jwt") }));
   }, []);
+
+  
   return (
     <div className="p-5 lg:px-20">
       <h1 className="pb-5 font-bold text-3xl">Treading History</h1>

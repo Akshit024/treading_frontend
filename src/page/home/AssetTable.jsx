@@ -16,7 +16,7 @@ const AssetTable = ({coin,category}) => {
   const navigate = useNavigate();
   return (
     <div>
-      <ScrollArea className="h-[74vh]">
+      <ScrollArea className="h-[84vh]">
       <Table>
         <TableHeader>
           <TableRow>
@@ -25,7 +25,7 @@ const AssetTable = ({coin,category}) => {
             <TableHead>Volume</TableHead>
             <TableHead>Market Cap</TableHead>
             <TableHead>Change in 24h</TableHead>
-            <TableHead className="text-right">Price</TableHead>
+            <TableHead>Price</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -41,7 +41,7 @@ const AssetTable = ({coin,category}) => {
               <TableCell>{items.total_volume}</TableCell>
               <TableCell>{items.market_cap}</TableCell>
               <TableCell>{items.price_change_percentage_24h} %</TableCell>
-              <TableCell className="text-right">$ {items.current_price}</TableCell>
+              <TableCell>$ {items.current_price}</TableCell>
             </TableRow>
           ))}
         </TableBody>

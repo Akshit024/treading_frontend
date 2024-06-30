@@ -9,8 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 const StockChart = ({coinId}) => {
     const dispatch = useDispatch();
     const {coin} = useSelector(store=>store);
-    console.log(coin.marketChart);
     const [activeLabel,setActiveLabel]=useState("1 Day");
+    const [noOfDays,setNoOfDays]=useState(1);
+
+
     const timeSeries=[
         {
             keyword:"DIGITAL_CURRENCY_DAILY",
@@ -29,6 +31,12 @@ const StockChart = ({coinId}) => {
             key:"Monthly Time Series",
             label:"1 Month",
             value :30,
+        },
+        {
+            keyword:"DIGITAL_CURRENCY_YEAR",
+            key:"Yearly Time Series",
+            label:"1 Year",
+            value :365,
         },
     ];
     const series =[
@@ -80,12 +88,13 @@ const StockChart = ({coinId}) => {
         },
     };
 
-    const handelActiveLabel = (label) =>{
-        setActiveLabel(label);
+    const handelActiveLabel = (item) =>{
+        setActiveLabel(item.label);
+        setNoOfDays(item.value);
     }
     useEffect(()=>{
-        dispatch(fetchMarketChartData({coinId,days:30}))
-    },[coinId]);
+        // dispatch(fetchMarketChartData({coinId,days:noOfDays}))
+    },[coinId,noOfDays]);
   return (
     <div>
         <div className='space-x-3'>
@@ -93,7 +102,7 @@ const StockChart = ({coinId}) => {
                 <Button 
                 key={items.label}
                 variant={activeLabel==items.label?"":"outline"} 
-                onClick={()=>handelActiveLabel(items.label)}>
+                onClick={()=>handelActiveLabel(items)}>
                     {items.label}
                 </Button>
             ))}

@@ -8,7 +8,7 @@ import { DotIcon, MessageCircle } from "lucide-react";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
-import { getCoinList, getTop50CoinList } from "@/state/Coin/Action";
+import { fetchCoinDetails, getCoinList, getTop50CoinList } from "@/state/Coin/Action";
 import {
   Pagination,
   PaginationContent,
@@ -20,19 +20,16 @@ import {
 } from "@/components/ui/pagination";
 
 const Home = () => {
-  const [category, setCategory] = React.useState("all");
   const [inputValue, setInputValue] = React.useState("");
   const [isBotOpen, setIsBotOpen] = React.useState(false);
   const { coin } = useSelector((store) => store);
   const dispatch = useDispatch();
 
-  const handleCategory = (value) => {
-    setCategory(value);
-  };
 
   const handleKeyPress = (event) => {
-    if (event.key == "Enter") {
-    }
+    // if (event.key == "Enter") {
+
+    // }
     setInputValue("");
   };
 
@@ -44,47 +41,18 @@ const Home = () => {
   };
   useEffect(() => {
     dispatch(getCoinList(1));
-    dispatch(getTop50CoinList());
+    dispatch(fetchCoinDetails({coinId:"ethereum"}));
   }, []);
+  console.log("coint :-",coin.coinDetails);
+
   return (
     <div className="relative">
       <div className="lg:flex">
         <div className="lg:w-[50%] lg:border-r">
-          <div className="p-3 flex items-center gap-4">
-            <Button
-              onClick={() => handleCategory("all")}
-              variant={category == "all" ? "default" : "outline"}
-              className="rounded-full"
-            >
-              All
-            </Button>
-            <Button
-              onClick={() => handleCategory("top50")}
-              variant={category == "top50" ? "default" : "outline"}
-              className="rounded-full"
-            >
-              Top 50
-            </Button>
-            <Button
-              onClick={() => handleCategory("topGainers")}
-              variant={category == "topGainers" ? "default" : "outline"}
-              className="rounded-full"
-            >
-              Top Gainers
-            </Button>
-            <Button
-              onClick={() => handleCategory("topLosers")}
-              variant={category == "topLosers" ? "default" : "outline"}
-              className="rounded-full"
-            >
-              Top Losers
-            </Button>
-          </div>
           <AssetTable
-            coin={category == "all" ? coin.coinList : coin.top50}
-            category={category}
+            coin = {coin.coinList} 
           />
-          <Pagination>
+          {/* <Pagination>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious href="#" />
@@ -99,27 +67,28 @@ const Home = () => {
                 <PaginationNext href="#" />
               </PaginationItem>
             </PaginationContent>
-          </Pagination>
+          </Pagination> */}
         </div>
         <div className="hidden lg:block lg:w-[50%] p-5">
           <StockChart coinId={"bitcoin"} />
           <div className="flex gap-5 items-center">
             <div className="h-12 w-12">
               <Avatar>
-                <AvatarImage src={"src/assets/logo.png"} />
+                <AvatarImage src={coin.coinDetails?.image.large} />
               </Avatar>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <p>ETH</p>
+                <p>{coin.coinDetails?.symbol.toUpperCase()}</p>
                 <DotIcon className="text-gray-400" />
-                <p className="text-gray-400">Ethereum</p>
+                <p className="text-gray-400">{coin.coinDetails?.name}</p>
               </div>
               <div className="flex items-end gap-2">
-                <p className="text-xl font-bold">12345</p>
+                <p className="text-xl font-bold">{coin.coinDetails?.market_data.current_price.usd}</p>
                 <p className="text-red-500">
-                  <span>123456</span>
-                  <span>(-102932%)</span>
+                  <span className={coin.coinDetails?.market_data.market_cap_change_percentage_24h< 0 ?"text-red-600":"text-green-g00"}> 
+                    ({coin.coinDetails?.market_data.market_cap_change_percentage_24h}%)
+                  </span>
                 </p>
               </div>
             </div>

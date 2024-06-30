@@ -25,7 +25,6 @@ const StockDetails = () => {
   const handleAddToWatchlist=()=>{
     dispatch(addItemToWatchlist({coinId:coin.coinDetails?.id,jwt:localStorage.getItem("jwt")}));
   }
-
   return (
     <div className="p-5 mt-5">
       <div className="flex justify-between">
@@ -43,9 +42,9 @@ const StockDetails = () => {
             </div>
             <div className="flex items-end gap-2">
               <p className="text-xl font-bold">${coin.coinDetails?.market_data.current_price.usd}</p>
-              <p className="text-red-600">
-                <span>-{coin.coinDetails?.market_data.market_cap_change_24h}</span>
-                <span>(-{coin.coinDetails?.market_data.market_cap_change_percentage_24h}%)</span>
+              <p className={coin.coinDetails?.market_data.market_cap_change_24h<0?"text-red-600":"text-green-600"}>
+                <span>{coin.coinDetails?.market_data.market_cap_change_24h}</span>
+                <span>({coin.coinDetails?.market_data.market_cap_change_percentage_24h}%)</span>
               </p>
             </div>
           </div>
