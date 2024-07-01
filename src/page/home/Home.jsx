@@ -8,7 +8,7 @@ import { DotIcon, MessageCircle } from "lucide-react";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCoinDetails, getCoinList, getTop50CoinList } from "@/state/Coin/Action";
+import { fetchCoinDetails, getCoinList } from "@/state/Coin/Action";
 import {
   Pagination,
   PaginationContent,

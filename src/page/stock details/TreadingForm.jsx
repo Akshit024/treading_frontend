@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 const TreadingForm = () => {
   const [orderType, setOrderType] = useState("BUY");
   const [amount, setAmount] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(0.0000);
   const { coin, wallet, asset } = useSelector((store) => store);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -24,21 +24,37 @@ const TreadingForm = () => {
       })
     );
   }, []);
-  const handleChange = (e) => {
-    const amount = e.target.value;
-    setAmount(amount);
-    const volume = calculateBuyCost(
+
+
+const handleChange = (e) => {
+  const amount = parseFloat(e.target.value);
+  setAmount(amount);
+  let volume;
+
+  if (orderType === "BUY") {
+    volume = calculateBuyCost(
       amount,
-      coin.coinDetails.market_data.current_price.usd.toFixed(4)
+      parseFloat(coin.coinDetails.market_data.current_price.usd).toFixed(4)
     );
-    console.log("helo ji", wallet.userWallet);
-    setQuantity(volume);
-  };
-  const calculateBuyCost = (amount, price) => {
-    let volume = amount / price;
-    let decimalPlaces = Math.min(4, price.toString().split(".")[1]?.length);
-    return volume.toFixed(decimalPlaces);
-  };
+  } else {
+    volume = calculateSellCost(
+      amount,
+      parseFloat(coin.coinDetails.market_data.current_price.usd).toFixed(4)
+    );
+  }
+
+  setQuantity(parseFloat(volume).toFixed(4));
+};
+
+const calculateSellCost = (quantity, price) => {
+  return parseFloat(quantity) * parseFloat(price);
+};
+
+const calculateBuyCost = (amount, price) => {
+  return parseFloat(amount) / parseFloat(price);
+};
+
+  
 
   const handleBuyCrypto = () => {
     dispatch(payOrder({
@@ -63,8 +79,8 @@ const TreadingForm = () => {
             name="amount"
           />
           <div>
-            <p className="border text-2xl flex justify-center items-center w-36 h-14 rounded-md">
-              {quantity}
+            <p className="border text-2xl flex justify-center items-center w-44 h-14 rounded-md">
+              {parseInt(quantity).toFixed(4)}
             </p>
           </div>
         </div>
@@ -79,7 +95,7 @@ const TreadingForm = () => {
           <Avatar>
             <AvatarImage
               src={
-                "https://cdn.pixabay.com/photo/2021/05/24/09/15/ethereum-6278326_1280.png"
+                coin.coinDetails?.image.large
               }
               alt="gelt"
             />
@@ -87,18 +103,22 @@ const TreadingForm = () => {
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <p>BTC</p>
+            <p>{
+                coin.coinDetails?.symbol.toUpperCase()
+            }</p>
             <DotIcon className="text-gray-400" />
-            <p className="text-gray-400">Bitcoin</p>
+            <p className="text-gray-400">{
+                coin.coinDetails?.name
+              }</p>
           </div>
           <div className="flex items-end gap-2">
             <p className="text-xl font-bold">
               ${coin.coinDetails.market_data.current_price.usd.toFixed(4)}
             </p>
-            <p className="text-red-600">
-              <span>-134567.567</span>
-              <span>(-0.234567%)</span>
-            </p>
+            <p className={coin.coinDetails?.market_data.market_cap_change_24h<0?"text-red-600":"text-green-600"}>
+                <span>{coin.coinDetails?.market_data.market_cap_change_24h}</span>
+                <span>({coin.coinDetails?.market_data.market_cap_change_percentage_24h}%)</span>
+              </p>
           </div>
         </div>
       </div>

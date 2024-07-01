@@ -9,9 +9,6 @@ import {
     FETCH_MARKET_CHART_FAILURE,
     FETCH_MARKET_CHART_REQUEST,
     FETCH_MARKET_CHART_SUCCESS,
-    FETCH_TOP_50_COINS_FAILURE,
-    FETCH_TOP_50_COINS_REQUEST,
-    FETCH_TOP_50_COINS_SUCCESS,
     SEARCH_COIN_FAILURE,
     SEARCH_COIN_REQUEST,
     SEARCH_COIN_SUCCESS,
@@ -19,7 +16,6 @@ import {
 
   const initialState ={
     coinList:[],
-    top50:[],
     searchCoinList:[],
     marketChart:{data:[],loading:false},
     coinById:null,
@@ -33,7 +29,6 @@ import {
         case FETCH_COIN_LIST_REQUEST:
         case FETCH_COIN_DETAILS_REQUEST:
         case SEARCH_COIN_REQUEST:
-        case FETCH_TOP_50_COINS_REQUEST:
             return {...state,loading:true,error:null}
                     
             
@@ -51,13 +46,6 @@ import {
                 loading:false,
                 error:null
             } 
-        case FETCH_TOP_50_COINS_SUCCESS:
-            return {
-                ...state,
-                top50:action.payload,
-                loading:false,
-                error:null
-            }  
         case FETCH_MARKET_CHART_SUCCESS:
             return {
                 ...state,
@@ -90,7 +78,6 @@ import {
         case FETCH_COIN_LIST_FAILURE:
         case FETCH_COIN_DETAILS_FAILURE:
         case SEARCH_COIN_FAILURE:
-        case FETCH_TOP_50_COINS_FAILURE:
             return {...state,loading:false,error:action.payload}
         
         default:       

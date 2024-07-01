@@ -8,9 +8,6 @@ import {
   FETCH_MARKET_CHART_FAILURE,
   FETCH_MARKET_CHART_REQUEST,
   FETCH_MARKET_CHART_SUCCESS,
-  FETCH_TOP_50_COINS_FAILURE,
-  FETCH_TOP_50_COINS_REQUEST,
-  FETCH_TOP_50_COINS_SUCCESS,
   SEARCH_COIN_FAILURE,
   SEARCH_COIN_REQUEST,
   SEARCH_COIN_SUCCESS,
@@ -25,16 +22,6 @@ export const getCoinList = (page) => async (dispatch) => {
     dispatch({ type: FETCH_COIN_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: FETCH_COIN_LIST_FAILURE, payload: error.message });
-  }
-};
-
-export const getTop50CoinList = () => async (dispatch) => {
-  dispatch({ type: FETCH_TOP_50_COINS_REQUEST });
-  try {
-    const { data } = await api.get("/coins/top50");
-    dispatch({ type: FETCH_TOP_50_COINS_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: FETCH_TOP_50_COINS_FAILURE });
   }
 };
 
